@@ -1,5 +1,16 @@
 @extends('Layout.app')
 
+@section('titlebar')
+<x-app-layout>
+<x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{ __('Dashboard') }}
+    </h2>
+</x-slot>
+</x-app-layout>
+@endsection
+
+
 @section('content')
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
@@ -23,9 +34,10 @@
                             </form>
                         </div>
                         <div class="col-md-2">
-                            <form action="{{ route('customers.index') }}" method="GET" class="form-order"> 
+                            <form action="{{ route('customers.index') }}" method="GET" class="form-order">
                                 <div class="input-group mb-3">
-                                    <select class="form-select" name="order" id="" onchange="$('.form-order').submit()">
+                                    <select class="form-select" name="order" id=""
+                                        onchange="$('.form-order').submit()">
                                         <option @selected(request()->order == 'desc') value="desc">Newest to Oldest </option>
                                         <option @selected(request()->order == 'asc') value="asc">Oldest to Newest</option>
                                     </select>
@@ -33,11 +45,11 @@
                             </form>
                         </div>
                         <div class="col-md-2 text-end">
-                            <a href="{{ route('customers.trash') }}" class="btn btn-dark"
-                           ><i class="fas fa-trash-alt"></i> Trash
-                        </a>
+                            <a href="{{ route('customers.trash') }}" class="btn btn-dark"><i class="fas fa-trash-alt"></i>
+                                Trash
+                            </a>
                         </div>
-                        
+
                     </div>
 
                 </div>
