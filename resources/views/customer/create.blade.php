@@ -1,9 +1,19 @@
-@extends('Layout.app');
+@extends('Layout.app')
+
+@section('navbar')
+    <x-app-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Create Customers') }}
+            </h2>
+        </x-slot>
+    </x-app-layout>
+@endsection
 
 @section('content')
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-            <h3>Customers</h3>
+            {{-- <h3>Customers</h3> --}}
             @if ($errors->any())
                 @foreach ($errors->all() as $error )
                         <div class="alert alert-danger">{{ $error }}</div>
@@ -15,7 +25,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-2">
-                            <a href="{{ route('home') }}" class="btn" style="background-color: #4643d3; color: white;"><i
+                            <a href="{{ route('customers.index') }}" class="btn" style="background-color: #4643d3; color: white;"><i
                                     class="fas fa-chevron-left"></i>
                                 Back</a>
                         </div>

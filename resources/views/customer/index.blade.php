@@ -1,21 +1,19 @@
 @extends('Layout.app')
-
-@section('titlebar')
-<x-app-layout>
-<x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ __('Dashboard') }}
-    </h2>
-</x-slot>
-</x-app-layout>
+@section('navbar')
+    <x-app-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Customers') }}
+            </h2>
+        </x-slot>
+    </x-app-layout>
 @endsection
-
 
 @section('content')
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-            <h3>Customers</h3>
-            <div class="card">
+            {{-- <h3>Customers</h3> --}}
+            <div class=" card">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-2">

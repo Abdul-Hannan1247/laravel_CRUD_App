@@ -1,9 +1,20 @@
 @extends('Layout.app')
 
+@section('navbar')
+    <x-app-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Deleted Customers') }}
+            </h2>
+        </x-slot>
+    </x-app-layout>
+@endsection
+
+
 @section('content')
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-            <h3>Deleted Customers</h3>
+            {{-- <h3>Deleted Customers</h3> --}}
             <div class="card">
                 <div class="card-header">
                     <div class="row">
