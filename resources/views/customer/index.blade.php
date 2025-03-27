@@ -65,26 +65,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($customers as $customer)
+                            @foreach ($mycustomers as $mycustomer)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>{{ $customer->first_name }}</td>
-                                    <td>{{ $customer->last_name }}</td>
-                                    <td>{{ $customer->phone }}</td>
-                                    <td>{{ $customer->email }}</td>
-                                    <td>{{ $customer->bank_account_number }}</td>
+                                    <td>{{ $mycustomer->first_name }}</td>
+                                    <td>{{ $mycustomer->last_name }}</td>
+                                    <td>{{ $mycustomer->phone }}</td>
+                                    <td>{{ $mycustomer->email }}</td>
+                                    <td>{{ $mycustomer->bank_account_number }}</td>
 
                                     <td>
-                                        <a href="{{ route('customers.edit', $customer->id) }}" style="color: #2c2c2c;"
+                                        <a href="{{ route('customers.edit', $mycustomer->id) }}" style="color: #2c2c2c;"
                                             class="ms-1 me-1"><i class="far fa-edit"></i></a>
-                                        <a href="{{ route('customers.show', $customer->id) }}" style="color: #2c2c2c;"
+                                        <a href="{{ route('customers.show', $mycustomer->id) }}" style="color: #2c2c2c;"
                                             class="ms-1 me-1"><i class="far fa-eye"></i></a>
                                         <a href="javascript:;"
                                             onclick="
-                                        if(confirm('Are you sure ?')) $('.form-{{ $customer->id }}').submit()"
+                                        if(confirm('Are you sure ?')) $('.form-{{ $mycustomer->id }}').submit()"
                                             style= "color: #2c2c2c;" class="ms-1 me-1"><i class="fas fa-trash-alt"></i></a>
-                                        <form class="form-{{ $customer->id }}"
-                                            action="{{ route('customers.destroy', $customer->id) }}" method="POST">
+                                        <form class="form-{{ $mycustomer->id }}"
+                                            action="{{ route('customers.destroy', $mycustomer->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
 

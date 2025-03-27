@@ -6,6 +6,8 @@ use App\Http\Requests\CustomerStoreRequest;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use File;
+use Illuminate\Support\Facades\Auth;
+
 
 class CustomerController extends Controller
 {
@@ -17,16 +19,22 @@ class CustomerController extends Controller
         // if($request->has('search')){
         //     // dd($request->all());
         // }
-        $customers = Customer::when($request->has('search'),function($query) use ($request){
+        $userId = Auth::id();
 
-            $query->where('first_name','LIKE',"%$request->search%")
-            ->orWhere('last_name','LIKE',"%$request->search%")
-            ->orWhere('phone','LIKE',"%$request->search%")
-            ->orWhere('email','LIKE',"%$request->search%")
-            ->orWhere('bank_account_number','LIKE',"%$request->search%");
-        })->orderBy('id',$request->has('order') && $request->order == 'asc' ? 'ASC' :'DESC')->get();
-        
-        return view('customer.index',compact('customers'));
+        $customers = Customer::when($request->has('search'), function ($query) use ($request) {
+
+            $query->where('first_name', 'LIKE', "%$request->search%")
+                ->orWhere('last_name', 'LIKE', "%$request->search%")
+                ->orWhere('phone', 'LIKE', "%$request->search%")
+                ->orWhere('email', 'LIKE', "%$request->search%")
+                ->orWhere('bank_account_number', 'LIKE', "%$request->search%");
+        })->orderBy('id', $request->has('order') && $request->order == 'asc' ? 'ASC' : 'DESC')->get();
+
+        $mycustomers = Customer::where('created_by_id', $userId)->get();
+        // dd($mycustomers);
+
+
+        return view('customer.index', compact('customers', 'mycustomers'));
     }
 
     /**
@@ -42,27 +50,25 @@ class CustomerController extends Controller
      */
     public function store(CustomerStoreRequest $request)
     {
-       // dd($request->all());
-       $customer = new Customer();
-       
-       if($request->hasFile('image')){
-        $image =$request->file('image');
-        $fileName = $image->store('','public');
-        $filePath = '/uploads/'.$fileName;
-        $customer->image = $filePath;
-       }
+        $userId = Auth::id();
+        // 
+        $customer = new Customer();
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $fileName = $image->store('', 'public');
+            $filePath = '/uploads/' . $fileName;
+            $customer->image = $filePath;
+        }
         $customer->first_name = $request->first_name;
         $customer->last_name = $request->last_name;
         $customer->email = $request->email;
         $customer->phone = $request->phone;
         $customer->bank_account_number = $request->bank_account_number;
         $customer->about = $request->about;
+        $customer->created_by_id = $userId;
         $customer->save();
 
         return  redirect()->route('customers.index');
-
-
-        
     }
 
     /**
@@ -70,6 +76,7 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
+      
         $customer = Customer::findorfail($id);
         return view('customer.show', compact('customer'));
     }
@@ -80,7 +87,7 @@ class CustomerController extends Controller
     public function edit(string $id)
     {
         $customer = Customer::findorFail($id);
-        return view('customer.edit',compact('customer'));
+        return view('customer.edit', compact('customer'));
     }
 
     /**
@@ -91,27 +98,25 @@ class CustomerController extends Controller
         // dd($request->all());
         $customer = Customer::findorFail($id);
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
 
             //Delete previous image
             File::delete(public_path($customer->image));
 
-            $image =$request->file('image');
-            $fileName = $image->store('','public');
-            $filePath = '/uploads/'.$fileName;
+            $image = $request->file('image');
+            $fileName = $image->store('', 'public');
+            $filePath = '/uploads/' . $fileName;
             $customer->image = $filePath;
-           }
-            $customer->first_name = $request->first_name;
-            $customer->last_name = $request->last_name;
-            $customer->email = $request->email;
-            $customer->phone = $request->phone;
-            $customer->bank_account_number = $request->bank_account_number;
-            $customer->about = $request->about;
-            $customer->save();
+        }
+        $customer->first_name = $request->first_name;
+        $customer->last_name = $request->last_name;
+        $customer->email = $request->email;
+        $customer->phone = $request->phone;
+        $customer->bank_account_number = $request->bank_account_number;
+        $customer->about = $request->about;
+        $customer->save();
 
-            return  redirect()->route('customers.index');
-
-
+        return  redirect()->route('customers.index');
     }
 
     /**
@@ -124,19 +129,23 @@ class CustomerController extends Controller
 
         $customer->delete();
         return redirect()->route('customers.index');
-
     }
-    function trashIndex(Request $request){
 
-        $customers = Customer::when($request->has('search'),function($query) use ($request){
 
-            $query->where('first_name','LIKE',"%$request->search%")
-            ->orWhere('last_name','LIKE',"%$request->search%")
-            ->orWhere('phone','LIKE',"%$request->search%")
-            ->orWhere('email','LIKE',"%$request->search%")
-            ->orWhere('bank_account_number','LIKE',"%$request->search%");
-        })->orderBy('id',$request->has('order') && $request->order == 'asc' ? 'ASC' :'DESC')->onlyTrashed()->get();
+    function trashIndex(Request $request)
+    {
+        $userId = Auth::id();
 
-        return view('customer.trash', compact('customers'));
+        $customers = Customer::when($request->has('search'), function ($query) use ($request) {
+
+            $query->where('first_name', 'LIKE', "%$request->search%")
+                ->orWhere('last_name', 'LIKE', "%$request->search%")
+                ->orWhere('phone', 'LIKE', "%$request->search%")
+                ->orWhere('email', 'LIKE', "%$request->search%")
+                ->orWhere('bank_account_number', 'LIKE', "%$request->search%");
+        })->orderBy('id', $request->has('order') && $request->order == 'asc' ? 'ASC' : 'DESC')->onlyTrashed()->get();
+
+        $mycustomers = Customer::where('created_by_id', $userId)->onlyTrashed()->get();
+        return view('customer.trash', compact('customers','mycustomers'));
     }
 }

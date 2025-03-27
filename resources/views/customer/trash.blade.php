@@ -22,7 +22,7 @@
                             <a href="{{ route('customers.index') }}" class="btn mb-3" style="background-color: #4643d3; color: white;"><i class="fas fa-chevron-left"></i> Back</a>
                         </div>
                         <div class="col-md-8">
-                            <form action="{{ route('customers.index') }}" method="GET">
+                            <form action="{{ route('customers.trash') }}" method="GET">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" placeholder="Search anything..."
                                         aria-describedby="button-addon2" name="search" value="{{ request()->search }}">
@@ -32,7 +32,7 @@
                             </form>
                         </div>
                         <div class="col-md-2">
-                            <form action="{{ route('customers.index') }}" method="GET" class="form-order"> 
+                            <form action="{{ route('customers.trash') }}" method="GET" class="form-order"> 
                                 <div class="input-group mb-3">
                                     <select class="form-select" name="order" id="" onchange="$('.form-order').submit()">
                                         <option @selected(request()->order == 'desc') value="desc">Newest to Oldest </option>
@@ -60,20 +60,20 @@
                                 <th scope="col">Phone Number</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">BAN</th>
-                                <th scope="col">Action</th>
+                                {{-- <th scope="col">Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($customers as $customer)
+                            @foreach ($mycustomers as $mycustomer)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
-                                    <td>{{ $customer->first_name }}</td>
-                                    <td>{{ $customer->last_name }}</td>
-                                    <td>{{ $customer->phone }}</td>
-                                    <td>{{ $customer->email }}</td>
-                                    <td>{{ $customer->bank_account_number }}</td>
+                                    <td>{{ $mycustomer->first_name }}</td>
+                                    <td>{{ $mycustomer->last_name }}</td>
+                                    <td>{{ $mycustomer->phone }}</td>
+                                    <td>{{ $mycustomer->email }}</td>
+                                    <td>{{ $mycustomer->bank_account_number }}</td>
 
-                                    <td>
+                                    {{-- <td>
                                         <a href="{{ route('customers.edit', $customer->id) }}" style="color: #2c2c2c;"
                                             class="ms-1 me-1"><i class="far fa-edit"></i></a>
                                         <a href="{{ route('customers.show', $customer->id) }}" style="color: #2c2c2c;"
@@ -88,7 +88,7 @@
                                             @method('DELETE')
 
                                         </form>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
 
