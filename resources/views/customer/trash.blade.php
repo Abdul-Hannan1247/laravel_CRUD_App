@@ -3,16 +3,14 @@
 @section('content')
     <div class="row justify-content-center mt-5">
         <div class="col-md-8">
-            <h3>Customers</h3>
+            <h3>Deleted Customers</h3>
             <div class="card">
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-2">
-                            <a href="{{ route('customers.create') }}" class="btn"
-                                style="background-color: #4643d3; color: white;"><i class="fas fa-plus"></i> Create Customer
-                            </a>
+                            <a href="{{ route('customers.index') }}" class="btn mb-3" style="background-color: #4643d3; color: white;"><i class="fas fa-chevron-left"></i> Back</a>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <form action="{{ route('customers.index') }}" method="GET">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" placeholder="Search anything..."
@@ -33,9 +31,9 @@
                             </form>
                         </div>
                         <div class="col-md-2 text-end">
-                            <a href="{{ route('customers.trash') }}" class="btn btn-dark"
+                            {{-- <a href="{{ route('customers.create') }}" class="btn btn-dark"
                            ><i class="fas fa-trash-alt"></i> Trash
-                        </a>
+                        </a> --}}
                         </div>
                         
                     </div>
